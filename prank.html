@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoulMate Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="typing-effect">Find Your Perfect Soulmate</h1>
+        <p>Our advanced AI technology can find your perfect match! Enter your name below and our system will analyze your destiny.</p>
+        
+        <div id="form-container">
+            <div class="input-group">
+                <input type="text" id="soulmate-name" placeholder="Enter your name">
+                <div id="error-message" class="error-message">Please enter your name correctly</div>
+            </div>
+            <div class="error-badge" id="error-badge">Don't try to cheat! Enter correctly</div>
+            <button id="find-button">Find My Soulmate</button>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="heart"></div>
+            <p>Analyzing your cosmic connections...</p>
+            <p id="loading-status">Scanning soul patterns...</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+        
+        <div class="results" id="results">
+            <div class="prank-result-container">
+                <div class="result-header">
+                    <h2>Perfect Match Found!</h2>
+                    <div class="match-badge">100% Match</div>
+                </div>
+                <div class="soulmate-name">SOUNDHER</div>
+                <div class="love-quote">
+                    <p>"I love three things: sun, moon, soundher"</p>
+                    <div class="quote-icon">❝</div>
+                </div>
+                <div class="result-details">
+                    <p>The stars have aligned! You and Soundher are destined to be together!</p>
+                    <div class="compatibility-meter">
+                        <div class="compatibility-bar"></div>
+                        <span>Perfect Compatibility</span>
+                    </div>
+                    <p class="destiny-note">This connection transcends time and space.</p>
+                </div>
+                <div class="no-other-match" id="no-other-match">
+                    <div class="no-match-icon">💘</div>
+                    <h3>No Other Match Found!</h3>
+                    <p>Only Soundher is perfect for you. This is your destiny.</p>
+                </div>
+                <div class="floating-hearts" id="floating-hearts"></div>
+            </div>
+            <button id="try-again">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const findButton = document.getElementById('find-button');
+            const formContainer = document.getElementById('form-container');
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            const tryAgainButton = document.getElementById('try-again');
+            const soulmateInput = document.getElementById('soulmate-name');
+            const errorMessage = document.getElementById('error-message');
+            const errorBadge = document.getElementById('error-badge');
+            const loadingStatus = document.getElementById('loading-status');
+            const progressBar = document.getElementById('progress-bar');
+            
+            const loadingTexts = [
+                "Scanning soul patterns...",
+                "Analyzing cosmic energy signatures...",
+                "Searching across dimensions...",
+                "Reading your astrological chart...",
+                "Calculating destiny pathways...",
+                "Consulting the ancient scrolls...",
+                "Finding your perfect match..."
+            ];
+            
+            // Create floating hearts animation
+            function createFloatingHearts() {
+                const heartsContainer = document.getElementById('floating-hearts');
+                heartsContainer.innerHTML = '';
+                
+                for (let i = 0; i < 25; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    
+                    // Random position
+                    const left = Math.random() * 100;
+                    const delay = Math.random() * 5;
+                    const duration = 5 + Math.random() * 10;
+                    
+                    heart.style.left = `${left}%`;
+                    heart.style.animationDelay = `${delay}s`;
+                    heart.style.animationDuration = `${duration}s`;
+                    
+                    heartsContainer.appendChild(heart);
+                }
+            }
+            
+            function animateLoadingText() {
+                let index = 0;
+                return setInterval(() => {
+                    loadingStatus.textContent = loadingTexts[index];
+                    index = (index + 1) % loadingTexts.length;
+                }, 1500);
+            }
+            
+            function animateProgressBar() {
+                let width = 0;
+                return setInterval(() => {
+                    if (width >= 100) {
+                        width = 100;
+                    } else {
+                        width += 1;
+                    }
+                    progressBar.style.width = width + '%';
+                }, 60);
+            }
+            
+            findButton.addEventListener('click', function() {
+                const name = soulmateInput.value.trim();
+                
+                if (name === '') {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Please enter your name';
+                    return;
+                }
+                
+                if (name.toLowerCase() !== 'varunavi') {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Don\'t try to cheat!';
+                    errorBadge.classList.add('show');
+                    
+                    setTimeout(() => {
+                        errorBadge.classList.remove('show');
+                    }, 3000);
+                    
+                    return;
+                }
+                
+                errorMessage.style.display = 'none';
+                
+                // Hide form, show loading
+                formContainer.style.display = 'none';
+                loading.style.display = 'block';
+                
+                // Animate loading text
+                const loadingInterval = animateLoadingText();
+                const progressInterval = animateProgressBar();
+                
+                // Set a timeout to simulate "processing"
+                setTimeout(function() {
+                    clearInterval(loadingInterval);
+                    clearInterval(progressInterval);
+                    loading.style.display = 'none';
+                    results.style.display = 'block';
+                    
+                    // Add active class for animations
+                    setTimeout(() => {
+                        results.classList.add('active');
+                    }, 100);
+                    
+                    // Create floating hearts
+                    createFloatingHearts();
+                    
+                    // Create confetti effect
+                    createConfetti();
+                    
+                    // Activate vibration on mobile if supported
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate([100, 50, 200, 50, 300, 50, 100]);
+                    }
+                    
+                }, 8000); // 8 seconds of "processing" for more drama
+            });
+            
+            tryAgainButton.addEventListener('click', function() {
+                // Get the no other match element
+                const noOtherMatch = document.getElementById('no-other-match');
+                
+                // Show the "no other match" message instead of going back to the form
+                noOtherMatch.classList.add('show');
+                
+                // Change the button text
+                this.textContent = "I Understand";
+                
+                // Remove the old click event and add a new one for the "I Understand" button
+                this.removeEventListener('click', arguments.callee);
+                this.addEventListener('click', function() {
+                    // Make the message pulse to emphasize there are no other options
+                    noOtherMatch.classList.add('pulse');
+                    setTimeout(() => {
+                        noOtherMatch.classList.remove('pulse');
+                    }, 1000);
+                });
+                
+                // Create more floating hearts
+                createFloatingHearts();
+            });
+            
+            function createConfetti() {
+                const colors = ['#e84393', '#fd79a8', '#ff7675', '#74b9ff', '#55efc4', '#a29bfe', '#ffeaa7', '#fab1a0'];
+                
+                for (let i = 0; i < 150; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    
+                    // Random position
+                    const left = Math.random() * 100;
+                    
+                    // Random color
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    // Random size
+                    const size = Math.random() * 10 + 5;
+                    
+                    // Random animation delay
+                    const delay = Math.random() * 5;
+                    
+                    // Random rotation
+                    const rotation = Math.random() * 360;
+                    
+                    confetti.style.left = `${left}vw`;
+                    confetti.style.backgroundColor = color;
+                    confetti.style.width = `${size}px`;
+                    confetti.style.height = `${size}px`;
+                    confetti.style.animationDelay = `${delay}s`;
+                    confetti.style.transform = `rotate(${rotation}deg)`;
+                    
+                    // Different shapes
+                    if (i % 3 === 0) {
+                        confetti.style.borderRadius = '0'; // Square
+                    } else if (i % 3 === 1) {
+                        confetti.style.borderRadius = '50% 0 50% 0'; // Diamond
+                    }
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Remove the confetti element after animation completes
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000 + delay * 1000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
